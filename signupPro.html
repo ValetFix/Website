@@ -1,0 +1,196 @@
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<title>Sign Up Pro - ValetFix</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+		<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+	</head>
+
+	<body>
+		<nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+			<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<a class="navbar-brand" href="#">ValetFix</a>
+			<div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+			    <ul class="navbar-nav">
+			    	<li class="nav-item">
+			        	<a class="nav-link" href="#">Join as a Pro</a>
+			      	</li>
+			      	<li class="nav-item">
+			        	<a class="nav-link" href="#">Sign Up</a>
+			      	</li>
+			      	<li class="nav-item nav-item-right">
+			        	<a class="nav-link" href="#">Log In</a>
+			      	</li>			      
+			    </ul>	    		
+			</div>			    			  
+		</nav>
+
+		<h1>Create Pro Account</h1>
+
+		<div id="inputArea">
+			<div class="card">
+				<form action="#" method="post">
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md-6">
+								<label>First</label>
+	    						<input class="form-control form-control-lg">
+							</div>
+							<div class="col-md-6">
+								<label>Last</label>
+	    						<input class="form-control form-control-lg">
+							</div>
+						</div>
+						<label>Phone Number</label>
+	    				<input  type="tel" class="form-control form-control-lg" id="phoneNumber">
+						<label>Email address</label>
+	    				<input  type="email" class="form-control form-control-lg" id="email">
+	    				<label>Password</label>
+	    				<input type="password" class="form-control form-control-lg" id="password">
+	    				<label>Service</label>
+					    <select class="form-control" id="selectService">
+					    	<option>Choose Service</option>
+					      	<option>iPhone Repair</option>
+					      	<option>Technician</option>
+					      	<option>Plumber</option>
+					    </select>
+					    <div id="insert"></div>
+	    				<button id="submitButton" type="submit" class="btn btn-primary btn-lg">Submit</button>
+	    				<small id="smallText" class="form-text text-muted">Already have an account? <a href="#">Click here to log in.</a></small>
+					</div>
+				</form>			
+			</div>		
+		</div>
+	</body>
+
+	<script>
+
+		$(document).ready(function() {
+		    $("#selectService").change(function(){
+
+		    	var info = '';
+
+		        if($(this).val() == "iPhone Repair"){
+		            info = `
+		            	<label>Years of Experience</label>
+		            	<select class="form-control">
+		            		<option>1 Year</option>
+					    	<option>2 Years</option>
+					      	<option>3 Years</option>
+					      	<option>4+ Years</option>
+					    </select>
+		            	<label>Phone Type</label>
+		            	<select class="form-control">
+		            		<option>iPhone 7</option>
+					    	<option>iPhone 6</option>
+					      	<option>iPhone 5</option>
+					      	<option>iphone 4</option>
+					      	<option>All</option>
+					    </select>
+					    <label>Repair Types</label>
+		            	<select class="form-control">
+		            		<option>Cracked Screen Repair</option>
+					    	<option>Battery Replacements</option>
+					      	<option>Button Fixes</option>
+					      	<option>Sound Repair</option>
+					      	<option>All</option>
+					    </select>
+		            `;
+		        }
+		        if($(this).val() == "Technician"){
+		            info = `
+		            	<label>Years of Experience</label>
+		            	<select class="form-control">
+		            		<option>1 Year</option>
+					    	<option>2 Years</option>
+					      	<option>3 Years</option>
+					      	<option>4+ Years</option>
+					    </select>
+		            	<label>What products do you repair?</label>
+		            	<select class="form-control">
+		            		<option>Desktops</option>
+					    	<option>Laptops</option>
+					      	<option>Phones</option>
+					      	<option>Refrigerators</option>
+					      	<option>Lights</option>
+					      	<option>Other</option>
+					    </select>
+		            `;
+		        }
+		        if($(this).val() == "Plumber"){
+		            info = `
+
+		            	<label>Years of Experience</label>
+		            	<select class="form-control">
+		            		<option>1 Year</option>
+					    	<option>2 Years</option>
+					      	<option>3 Years</option>
+					      	<option>4+ Years</option>
+					    </select>
+		            	<label>Availability</label>
+		            	<select class="form-control">
+		            		<option>M-F</option>
+					    	<option>24/7</option>					      	
+					      	<option>Other</option>
+					    </select>
+					    <label>Repair Types</label>
+		            	<select class="form-control">
+		            		<option>Water Heater</option>
+		            		<option>Sinks</option>
+					    	<option>Toilets</option>
+					    	<option>Showers</option>
+					      	<option>Clogs</option>
+					      	<option>Drips</option>
+					      	<option>Other</option>
+					    </select>
+		            `;
+		        }
+		        $('#insert').empty();
+		        $('#insert').append(info);
+		    });
+		});		
+	</script>
+	
+	<style>
+		body {
+			background-color: #F7F7F7;
+		}
+		nav {
+			background-color: white !important;
+		}
+
+		h1 {
+			text-align: center;
+			padding-top: 50px;
+		}
+
+		form {
+			margin: 0;
+		}
+
+		#inputArea {
+			max-width: 450px !important;
+			margin: 0 auto;
+			display: block;
+			padding-top: 50px;
+		}
+
+		.form-group {
+			padding: 30px !important;
+			
+		}
+
+		label {
+			padding-top: 10px !important;
+		}
+
+		#submitButton {
+			margin-top: 40px;
+			width: 100%;
+		}
+	</style>	
+</html>
