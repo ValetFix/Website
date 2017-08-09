@@ -1,1 +1,1 @@
-web: node Valay_Backend/app.js
+web: node app.js
