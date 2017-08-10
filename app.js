@@ -2,14 +2,14 @@ var express=require('express');
 var mongoose=require('mongoose');
 var bodyParser=require('body-parser');
 
-var db=mongoose.connect('mongodb://admin:password@ds125113.mlab.com:25113/valaysite');
+var db=mongoose.connect('mongodb://admin:password@ds125113.mlab.com:25113/valaysite', { useMongoClient: true });
 
 var User=require('./models/userModel');
 var Contractor=require('./models/contractorModel');
 
 var app=express();
 
-var port=process.env.port || 3000;
+var port=process.env.PORT || 3000;
 
 app.use(bodyParser.urlencoded({extended:true}))
 app.use(bodyParser.json())
