@@ -11,21 +11,25 @@ body {
 		}
 
 		form {
-			margin: 0;
+			margin: 0 auto;
+			width:750px;
+			text-align: center;
 		}
+
 
 		#inputArea {
 			max-width: 450px !important;
 			margin: 0 auto;
-			display: block;
-			padding-top: 50px;
+			display: inline-block;
+			padding-top: 40px;
 		}
 
 		.form-group {
-			padding: 30px !important;
+			padding: 40px !important;
 			
 		}
 
+	
 		label {
 			padding-top: 10px !important;
 		}
