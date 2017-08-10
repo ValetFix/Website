@@ -2,7 +2,7 @@ var express=require('express');
 var mongoose=require('mongoose');
 var bodyParser=require('body-parser');
 
-var db=mongoose.connect('mongodb://localhost/valayapi')
+var db=mongoose.connect('mongodb://admin:password@ds125113.mlab.com:25113/valaysite');
 
 var User=require('./models/userModel');
 var Contractor=require('./models/contractorModel');
