@@ -1,124 +1,85 @@
-var express=require('express');
-var mongoose=require('mongoose');
-var bodyParser=require('body-parser');
+var express = require('express');
+var session = require('express-session');
+var path = require('path');
+var logger = require('morgan');
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+var bcrypt = require('bcryptjs');
 
-var db=mongoose.connect('mongodb://admin:password@ds125113.mlab.com:25113/valaysite', { useMongoClient: true });
+mongoose.Promise = global.Promise;
+var db = mongoose.connect('mongodb://admin:password@ds125113.mlab.com:25113/valaysite', { useMongoClient: true });
 
-var User=require('./models/userModel');
-var Contractor=require('./models/contractorModel');
+var app = express();
+var port = process.env.PORT || 3000;
 
-var app=express();
+var User = require('./models/userModel');
+var Contractor = require('./models/contractorModel');
 
-var port=process.env.PORT || 3000;
+// Passport config, required for passport
+passport.serializeUser(function(user, done){
+  done(null, user.id);
+});
 
-app.use(bodyParser.urlencoded({extended:true}))
-app.use(bodyParser.json())
+passport.deserializeUser(function(id, done){
+  User.findById(id, function(err, user){
+    done(err, user);
+  });
+});
 
-var userRouter = express.Router();
-var contractorRouter=express.Router();
+//declare new passport local strategy for login
+passport.use('local-login',new LocalStrategy({
+  usernameField : 'email',
+  passwordField : 'password',
+  passReqToCallback : true
+}, function(req, email, password, done){
+  //covert stri
+  if(email)
+    email = email.toLowerCase();
+  //check if email already exists
+  User.findOne({'email': email}, function(err, user){
+    if(err) {
+      throw err;
+    }
+    if(!user){
+      throw err;
+    }
+    if(bcrypt.compareSync(password, user.password)){
+      if(err){
+        throw err;
+      }
+      return done(null, user);
+    } else {
+      throw err;
+    }
+  });
+}));
 
-userRouter.route('/users')
-        .post(function(req,res){
-            console.log(req.body);
-            var user=new User(req.body);
-            user.save();
-            console.log(user);
-            res.status(201).send(user);
-        })
-        .get(function(req,res){
-            console.log(req+" "+res);
-            var query={};
-            if(req.query.email){
-                query.email=req.query.email;
-            }
-            User.find(query,function(err,users){
-                if(err){
-                    res.status(500).send(err);
-                    console.log(err);
-                }
-                else{
-                    console.log('connected');
-                    res.json(users);
-                }
-            })
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.engine('html', require('ejs').renderFile);
+app.set('view engine', 'html');
 
-        });
-        contractorRouter.route('/contractor')
-                .post(function(req,res){
-                    console.log(req.body);
-                    var contractor=new Contractor(req.body);
-                    contractor.save();
-                    console.log(contractor);
-                    res.status(201).send(contractor);
-                })
-                .get(function(req,res){
-                    console.log(req+" "+res);
-                    var query={};
-                    if(req.query.email){
-                        query.email=req.query.email;
-                    }
-                    Contractor.find(query,function(err,contractors){
-                        if(err){
-                            res.status(500).send(err);
-                            console.log(err);
-                        }
-                        else{
-                            console.log('connected');
-                            res.json(contractors);
-                        }
-                    })
+app.use(logger('dev'));
+app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.json());
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'views')));
 
-                });
-                contractorRouter.route('/contractor/:contractorid')
-                        .get(function(req,res){
-                            console.log(req+" "+res);
-                            var query={};
-                            if(req.query.email){
-                                query.email=req.query.email;
-                            }
-                            Contractor.findById(req.params.contractorid,function(err,contractors){
-                                if(err){
-                                    res.status(500).send(err);
-                                    console.log(err);
-                                }
-                                else{
-                                    console.log('connected');
-                                    res.json(contractors);
-                                }
-                            })
+app.use(session({ secret: 'valaysecret183', saveUninitialized: true, resave: true  }));
 
-                        });
+// Init passport
+app.use(passport.initialize());
+app.use(passport.session());
 
+var routes = require('./routes/routes');
+var api = require('./routes/api');
 
-
-userRouter.route('/users/:userId')
-        .get(function(req,res){
-            console.log("hii"+req.params.userId);
-            // var query={};
-            // if(req.query.userId){
-            //     query.email=req.query.email;
-            // }
-            User.findById(req.params.userId,function(err,user){
-                if(err){
-                    res.status(500).send(err);
-                    console.log(err);
-                }
-                else{
-                    console.log('connected');
-                    res.json(user);
-                }
-            })
-
-        });
-
-app.use('/api', userRouter);
-app.use('/api', contractorRouter);
-
-app.get('/',function(req, res){
-    res.send("welcome to API!!");
-})
-
+app.use('/', routes);
+app.use('/api', api);
 
 app.listen(port, function(){
-    console.log('running on Port'+port);
-})
+    console.log('running on Port '+ port);
+});
