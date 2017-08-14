@@ -75,10 +75,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 var routes = require('./routes/routes');
-var api = require('./routes/api');
 
 app.use('/', routes);
-app.use('/api', api);
 
 app.listen(port, function(){
     console.log('running on Port '+ port);
