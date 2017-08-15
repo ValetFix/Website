@@ -10,7 +10,7 @@ var LocalStrategy = require('passport-local').Strategy;
 var bcrypt = require('bcryptjs');
 
 mongoose.Promise = global.Promise;
-var db = mongoose.connect('mongodb://localhost/valayapi', { useMongoClient: true });
+var db = mongoose.connect('mongodb://admin:password@ds125113.mlab.com:25113/valaysite', { useMongoClient: true });
 
 var app = express();
 var port = process.env.PORT || 3000;
