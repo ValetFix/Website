@@ -67,7 +67,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(session({ secret: 'valaysecret183', saveUninitialized: true, resave: true  }));
-
+app.use(express.static(path.join(__dirname, 'views')));
 // Init passport
 app.use(passport.initialize());
 app.use(passport.session());
