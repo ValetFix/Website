@@ -10,7 +10,7 @@ var LocalStrategy = require('passport-local').Strategy;
 var bcrypt = require('bcryptjs');
 
 mongoose.Promise = global.Promise;
-var db = mongoose.connect('mongodb://admin:password@ds125113.mlab.com:25113/valaysite', { useMongoClient: true });
+var db = mongoose.connect('mongodb://localhost/valayapi', { useMongoClient: true });
 
 var app = express();
 var port = process.env.PORT || 3000;
@@ -66,8 +66,6 @@ app.use(logger('dev'));
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'views')));
-
 app.use(session({ secret: 'valaysecret183', saveUninitialized: true, resave: true  }));
 
 // Init passport
@@ -75,8 +73,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 var routes = require('./routes/routes');
+var api = require('./routes/api');
 
 app.use('/', routes);
+app.use('/api', api);
 
 app.listen(port, function(){
     console.log('running on Port '+ port);
