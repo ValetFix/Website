@@ -1,5 +1,5 @@
 var mongoose=require('mongoose'),
-    schema=mongoose.Schema;
+    schema=mongoose.Schema; 
 
 var contractorModel=new schema({
     firstName: {
