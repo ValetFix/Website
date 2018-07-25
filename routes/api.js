@@ -1,6 +1,6 @@
 var express = require('express');
 var userRouter = express.Router();
-var contractorRouter = express.Router();
+var contractorRouter = express.Router(); 
 
 var User = require('../models/userModel');
 var Contractor = require('../models/contractorModel');
